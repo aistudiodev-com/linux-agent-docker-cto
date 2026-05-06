@@ -1,0 +1,12 @@
+services:
+  openclaw-agent:
+    build: .
+    container_name: openclaw-agent
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    # Puedes montar volúmenes aquí si necesitas persistencia o acceso a archivos locales
+    # volumes:
+    #   - ./data:/home/node/data
