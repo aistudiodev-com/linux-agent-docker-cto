@@ -26,8 +26,8 @@ cd linux-agent-docker-cto
 ```
 
 ### 2. Construir la imagen
-> [!NOTE]
-> La construcción descargará el modelo de Whisper (~1.5GB), por lo que puede tomar unos minutos dependiendo de tu conexión.
+> [!TIP]
+> Si ya tienes el modelo descargado localmente, colócalo en una carpeta llamada `models` en este directorio para que se monte automáticamente vía Docker Compose. Esto evitará la descarga de ~1.5GB durante la ejecución.
 
 ```bash
 docker build -t openclaw-cto .
@@ -56,7 +56,7 @@ docker run -d \
 | **Red** | `curl`, `wget`, `ping`, `traceroute`, `net-tools`, `dnsutils` |
 | **Archivos** | `zip`, `unzip`, `vim`, `jq`, `tree` |
 | **Documentos** | `poppler-utils` (PDF) |
-| **Multimedia** | `ffmpeg`, `imagemagick`, `libwebp-tools` |
+| **Multimedia** | `ffmpeg`, `imagemagick`, `webp` |
 | **IA** | `openai-whisper` (large-v3-turbo) |
 | **Cloud** | `google-cloud-sdk` |
 

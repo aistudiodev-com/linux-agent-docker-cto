@@ -7,6 +7,6 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
-    # Puedes montar volúmenes aquí si necesitas persistencia o acceso a archivos locales
-    # volumes:
-    #   - ./data:/home/node/data
+    volumes:
+      - ./models:/home/node/.cache/whisper
+      - ./data:/home/node/data

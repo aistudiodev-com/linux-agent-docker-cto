@@ -18,29 +18,27 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     # Multimedia
     ffmpeg libsox-fmt-all \
     # Imagen y WebP
-    imagemagick libwebp-tools \
+    imagemagick webp \
     # Utilidades de sistema y desarrollo
     git \
     python3 python3-pip \
-    build-essential \
     gnupg \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
 # Instalar Google Cloud SDK de forma moderna (usando keyring)
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
     curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | gpg --dearmor -o /usr/share/keyrings/cloud.google.gpg && \
     apt-get update && apt-get install -y google-cloud-sdk && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean && rm -rf /var/lib/apt/lists/* /var/cache/apt/archives/*
 
-# Instalar Whisper y descargar el modelo large-v3-turbo
-# El modelo se guarda en el cache del usuario node para que sea accesible
-RUN pip3 install --no-cache-dir openai-whisper && \
+# Instalar PyTorch (versión CPU) y Whisper para ahorrar varios GB (evita librerías de NVIDIA/CUDA)
+RUN pip3 install --no-cache-dir torch torchaudio --index-url https://download.pytorch.org/whl/cpu --break-system-packages && \
+    pip3 install --no-cache-dir openai-whisper --break-system-packages && \
     mkdir -p /home/node/.cache/whisper && \
-    python3 -c "import whisper; whisper.load_model('large-v3-turbo')" && \
     chown -R node:node /home/node/.cache
 
 # Configurar el usuario no-root por defecto
 USER node
 
 # El comando por defecto para ejecutar OpenClaw
-CMD ["node", "/app/dist/index.js", "gateway", "run"]
+CMD ["node", "/app/dist/index.js", "gateway", "run", "--allow-unconfigured"]
