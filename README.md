@@ -10,6 +10,7 @@ Esta imagen no solo ejecuta OpenClaw, sino que viene pre-equipada con:
 - **Google Cloud SDK**: Herramientas completas (`gcloud`, `gsutil`, `bq`) para integración con la nube.
 - **Multimedia**: `ffmpeg` y herramientas de WebP para procesamiento de audio y video.
 - **Productividad**: Procesamiento de PDFs (`poppler-utils`), manipulación de JSON (`jq`) y herramientas de red.
+- **Acceso Remoto**: Cliente SSH pre-instalado para conectarse al host Ubuntu u otros servidores.
 - **Desarrollo**: Python 3, Git y utilidades esenciales de compilación.
 
 ## 🛠️ Requisitos
@@ -40,20 +41,28 @@ Puedes usar el archivo `docker-compose.yml` proporcionado:
 docker-compose up -d
 ```
 
-O mediante Docker CLI:
+O mediante Docker CLI (importante incluir `--add-host` para permitir la comunicación con el host):
 
 ```bash
 docker run -d \
   --name openclaw-agent \
   -p 3000:3000 \
+  --add-host host.docker.internal:host-gateway \
   openclaw-cto
+```
+
+#### 🔌 Conectarse al Host mediante SSH
+Gracias a la configuración de red incluida, puedes conectarte desde dentro del contenedor a tu máquina host Ubuntu usando:
+
+```bash
+ssh tu_usuario@host.docker.internal
 ```
 
 ## 🛠️ Herramientas Incluidas
 
 | Categoría | Herramientas |
 | :--- | :--- |
-| **Red** | `curl`, `wget`, `ping`, `traceroute`, `net-tools`, `dnsutils` |
+| **Red** | `curl`, `wget`, `ping`, `traceroute`, `net-tools`, `dnsutils`, `ssh-client`, `rsync` |
 | **Archivos** | `zip`, `unzip`, `vim`, `jq`, `tree` |
 | **Documentos** | `poppler-utils` (PDF) |
 | **Multimedia** | `ffmpeg`, `imagemagick`, `webp` |

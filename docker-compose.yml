@@ -10,3 +10,5 @@ services:
     volumes:
       - ./models:/home/node/.cache/whisper
       - ./data:/home/node/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -9,8 +9,8 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Instalación masiva de herramientas
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    # Herramientas de red
-    curl wget iputils-ping traceroute net-tools dnsutils \
+    # Herramientas de red y transferencia
+    curl wget iputils-ping traceroute net-tools dnsutils openssh-client rsync \
     # Manipulación de archivos
     zip unzip xz-utils vim nano tree jq \
     # Procesamiento de PDF
